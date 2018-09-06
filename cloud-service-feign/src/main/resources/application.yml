@@ -1,0 +1,22 @@
+spring:
+  profiles:
+    active: port8201
+  application:
+    name: service-feign
+
+feign:
+  hystrix:
+    enabled: true
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:9000/eureka/,http://localhost:9001/eureka/,http://localhost:9002/eureka/
+  instance:
+    instance-id: ${spring.application.name}:${server.port}   #自定义hystrix相关的服务名称信息
+    prefer-ip-address: true
+info:
+  app.name:  ${spring.application.name}
+  company.name: huo.com
+  build.artifactId: $project.artifactId$
+  build.version: $project.version$

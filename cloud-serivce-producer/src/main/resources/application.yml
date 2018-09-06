@@ -1,0 +1,50 @@
+spring:
+  profiles:
+    active: port8101
+  application:
+    name: service-producer
+  datasource:
+    type: com.alibaba.druid.pool.DruidDataSource
+    druid:
+      filters: stat
+      initial-size: 1
+      min-idle: 1
+      max-active: 20
+      max-wait: 60000
+      time-between-eviction-runs-millis: 60000
+      min-evictable-idle-time-millis: 300000
+      validation-query: SELECT 'x'
+      test-while-idle: true
+      test-on-borrow: false
+      test-on-return: false
+      pool-prepared-statements: false
+      max-pool-prepared-statement-per-connection-size: 20
+    masterDB:
+      driver-class-name: com.mysql.cj.jdbc.Driver
+      url: jdbc:mysql://10.8.8.143:3306/ln_core_demo?useUnicode=true&characterEncoding=UTF-8&allowMultiQueries=true&useSSL=false
+      username: ln_core_demo_usr
+      password: New2018_Core
+    otherDB1:
+      driver-class-name: com.mysql.cj.jdbc.Driver
+      url: jdbc:mysql://10.8.8.143:3306/ln_core?useUnicode=true&characterEncoding=UTF-8&allowMultiQueries=true&useSSL=false
+      username: ln_core_usr
+      password: New2018_Core
+
+mybatis:
+  mapper-locations: classpath:mapper/**/*.xml
+  type-aliases-package: com.aspirecn.*.po
+
+logging:
+  level:
+    com: debug
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://eureka9003:9003/eureka/,http://eureka9002:9002/eureka/,http://eureka9000:9000/eureka/
+  instance:
+    instance-id: ${spring.application.name}:${server.port}
+    prefer-ip-address: true
+info:
+  app.name: ${spring.application.name}
+  app.port: ${server.port}
