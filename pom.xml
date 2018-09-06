@@ -10,7 +10,12 @@
 
     <name>cloud</name>
     <description></description>
-
+    <modules>
+        <module>cloud-eureka-server</module>
+        <module>cloud-service-producer</module>
+        <module>cloud-service-feign</module>
+        <module>cloud-service-zuul</module>
+    </modules>
 
     <parent>
         <groupId>org.springframework.boot</groupId>
