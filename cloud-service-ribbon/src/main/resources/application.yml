@@ -1,17 +1,8 @@
 spring:
   profiles:
-    active: port9201
+    active: port8211
   application:
-    name: service-zuul
-
-zuul:
-  routes:
-    api-a:
-      path: /api-a/**
-      serviceId: service-ribbon
-    api-b:
-      path: /api-b/**
-      serviceId: service-feign
+    name: service-ribbon
 
 eureka:
   client:

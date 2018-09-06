@@ -1,0 +1,18 @@
+spring:
+  application:
+    name: config-server
+  cloud:
+    config:
+      #  配置仓库的分支
+      label: master
+      server:
+        git:
+          #  配置git仓库地址
+          uri: https://github.com/huo-huo/cloud-config.git
+          #  配置仓库路径
+          searchPaths: cloudConfig
+#  访问git仓库的用户名 密码
+#          username: your username
+#          password: your password
+server:
+  port: 9301
