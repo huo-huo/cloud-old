@@ -1,13 +1,13 @@
 server:
-  port: 9003
+  port: 9102
 
 eureka:
   instance:
-    hostname: eureka9003
+    hostname: eureka9102
   client:
     # false表示不向注册中心注册自己。
-    registerWithEureka: true
+    registerWithEureka: false
     # false表示自己端就是注册中心，我的职责就是维护服务实例，并不需要去检索服务
-    fetchRegistry: true
+    fetchRegistry: false
     serviceUrl:
-      defaultZone: http://eureka9000:9000/eureka/,http://eureka9002:9002/eureka/
+      defaultZone: http://eureka9100:9100/eureka/,http://eureka9101:9101/eureka/

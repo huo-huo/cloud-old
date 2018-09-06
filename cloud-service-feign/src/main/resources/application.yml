@@ -11,12 +11,10 @@ feign:
 eureka:
   client:
     serviceUrl:
-      defaultZone: http://localhost:9000/eureka/,http://localhost:9001/eureka/,http://localhost:9002/eureka/
+      defaultZone: http://eureka9100:9100/eureka/,http://eureka9101:9101/eureka/,http://eureka9102:9102/eureka/
   instance:
-    instance-id: ${spring.application.name}:${server.port}   #自定义hystrix相关的服务名称信息
+    instance-id: ${spring.application.name}:${server.port}
     prefer-ip-address: true
 info:
-  app.name:  ${spring.application.name}
-  company.name: huo.com
-  build.artifactId: $project.artifactId$
-  build.version: $project.version$
+  app.name: ${spring.application.name}
+  app.port: ${server.port}
