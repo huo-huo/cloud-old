@@ -1,0 +1,106 @@
+sharding:
+  jdbc:
+    datasource:
+      names: master,slave #数据源名称，多数据源以逗号分隔
+      master:
+        driver-class-name: com.mysql.cj.jdbc.Driver
+        url: jdbc:mysql://106.14.226.215:33306/ln_core_demo?useUnicode=true&characterEncoding=UTF-8&allowMultiQueries=true&useSSL=false
+        username: root
+        password: LNXXT2017
+#        url: jdbc:mysql://10.2.98.14:3306/ln_core_demo?useUnicode=true&characterEncoding=UTF-8&allowMultiQueries=true&useSSL=false
+#        username: ln_core_demo_usr
+#        password: New2018_Core
+        type: com.alibaba.druid.pool.DruidDataSource
+        filters: stat
+        initial-size: 1
+        min-idle: 1
+        max-active: 20
+        max-wait: 60000
+        time-between-eviction-runs-millis: 60000
+        min-evictable-idle-time-millis: 300000
+        validation-query: SELECT 'x'
+        test-while-idle: true
+        test-on-borrow: false
+        test-on-return: false
+        pool-prepared-statements: false
+        max-pool-prepared-statement-per-connection-size: 20
+      slave:
+        driver-class-name: com.mysql.cj.jdbc.Driver
+        url: jdbc:mysql://106.14.226.215:33306/ln_core_demo?useUnicode=true&characterEncoding=UTF-8&allowMultiQueries=true&useSSL=false
+        username: root
+        password: LNXXT2017
+#        url: jdbc:mysql://10.2.98.174:3306/ln_core_demo?useUnicode=true&characterEncoding=UTF-8&allowMultiQueries=true&useSSL=false
+#        username: ln_core_demo_usr
+#        password: New2018_Core
+        type: com.alibaba.druid.pool.DruidDataSource
+        filters: stat
+        initial-size: 1
+        min-idle: 1
+        max-active: 20
+        max-wait: 60000
+        time-between-eviction-runs-millis: 60000
+        min-evictable-idle-time-millis: 300000
+        validation-query: SELECT 'x'
+        test-while-idle: true
+        test-on-borrow: false
+        test-on-return: false
+        pool-prepared-statements: false
+        max-pool-prepared-statement-per-connection-size: 20
+    config:
+#      masterslave: # 无分表的读写分离
+#        name: master-slave
+#        master-data-source-name: master
+#        slave-data-source-names: slave
+      sharding:
+        props:
+          sql:
+            show: true
+        master-slave-rules: # 有分表的读写分离
+          masterslave:
+            master-data-source-name: master
+            slave-data-source-names: slave
+        tables: # 分表规则
+          tb_homework_parent: # 要分的表
+            actual-data-nodes: masterslave.tb_homework_parent$->{0..9} # 哪个库的哪些表(子表)
+            key-generator-column-name: id # 主键
+            table-strategy: # 分表策略
+              inline: # 行表达式策略
+                shardingColumn: parent_id # 用于分表的字段
+                algorithmExpression: tb_homework_parent$->{parent_id % 10} # 分表规则表达式
+          tb_homework_resp: # 要分的表
+            actual-data-nodes: masterslave.tb_homework_resp$->{0..9} # 哪个库的哪些表(子表)
+            key-generator-column-name: id # 主键
+            table-strategy: # 分表策略
+              inline: # 行表达式策略
+                shardingColumn: homework_id # 用于分表的字段
+                algorithmExpression: tb_homework_resp$->{homework_id % 10} # 分表规则表达式
+          tb_notice_resp: # 要分的表
+            actual-data-nodes: masterslave.tb_notice_resp$->{0..9} # 哪个库的哪些表(子表)
+            key-generator-column-name: id # 主键
+            table-strategy: # 分表策略
+              inline: # 行表达式策略
+                shardingColumn: msg_id # 用于分表的字段
+                algorithmExpression: tb_notice_resp$->{msg_id % 10} # 分表规则表达式
+          tb_notice_rec: # 要分的表
+            actual-data-nodes: masterslave.tb_notice_rec$->{0..9} # 哪个库的哪些表(子表)
+            key-generator-column-name: id # 主键
+            table-strategy: # 分表策略
+              inline: # 行表达式策略
+                shardingColumn: rec_id # 用于分表的字段
+                algorithmExpression: tb_notice_rec$->{rec_id % 10} # 分表规则表达式
+          tb_comment_rec: # 要分的表
+            actual-data-nodes: masterslave.tb_comment_rec$->{0..9} # 哪个库的哪些表(子表)
+            # 主键
+            key-generator-column-name: id
+            table-strategy: # 分表策略
+              inline: # 行表达式策略
+                shardingColumn: parent_id # 用于分表的字段
+                algorithmExpression: tb_comment_rec$->{parent_id % 10} # 分表规则表达式
+          tb_comment_send: # 要分的表
+            actual-data-nodes: masterslave.tb_comment_send$->{0..9} # 哪个库的哪些表(子表)
+            # 主键
+            key-generator-column-name: id
+            table-strategy: # 分表策略
+              inline: # 行表达式策略
+                shardingColumn: teacher_id # 用于分表的字段
+                algorithmExpression: tb_comment_send$->{teacher_id % 10} # 分表规则表达式

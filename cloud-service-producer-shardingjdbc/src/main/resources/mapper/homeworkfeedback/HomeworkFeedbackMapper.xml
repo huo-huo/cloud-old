@@ -1,0 +1,332 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.huo.cloud.homeworkfeedback.dao.HomeworkFeedbackMapper" >
+  <resultMap id="BaseResultMap" type="com.huo.cloud.homeworkfeedback.po.HomeworkFeedback" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="homework_id" property="homeworkId" jdbcType="INTEGER" />
+    <result column="parent_id" property="parentId" jdbcType="INTEGER" />
+    <result column="student_name" property="studentName" jdbcType="VARCHAR" />
+    <result column="check_time" property="checkTime" jdbcType="TIMESTAMP" />
+    <result column="feedback_time" property="feedbackTime" jdbcType="TIMESTAMP" />
+    <result column="feedback_content" property="feedbackContent" jdbcType="VARCHAR" />
+    <result column="feedback_urls" property="feedbackUrls" jdbcType="VARCHAR" />
+    <result column="feedback_thumburls" property="feedbackThumburls" jdbcType="VARCHAR" />
+    <result column="feedback_audio_urls" property="feedbackAudioUrls" jdbcType="VARCHAR" />
+    <result column="is_reminded" property="isReminded" jdbcType="BIT" />
+    <result column="is_del" property="isDel" jdbcType="BIT" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, homework_id, parent_id, student_name, check_time, feedback_time, feedback_content, 
+    feedback_urls, feedback_thumburls, feedback_audio_urls, is_reminded, is_del
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.huo.cloud.homeworkfeedback.po.HomeworkFeedbackExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from tb_homework_feedback
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from tb_homework_feedback
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from tb_homework_feedback
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.huo.cloud.homeworkfeedback.po.HomeworkFeedbackExample" >
+    delete from tb_homework_feedback
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.huo.cloud.homeworkfeedback.po.HomeworkFeedback" >
+    insert into tb_homework_feedback (id, homework_id, parent_id, 
+      student_name, check_time, feedback_time, 
+      feedback_content, feedback_urls, feedback_thumburls, 
+      feedback_audio_urls, is_reminded, is_del
+      )
+    values (#{id,jdbcType=INTEGER}, #{homeworkId,jdbcType=INTEGER}, #{parentId,jdbcType=INTEGER}, 
+      #{studentName,jdbcType=VARCHAR}, #{checkTime,jdbcType=TIMESTAMP}, #{feedbackTime,jdbcType=TIMESTAMP}, 
+      #{feedbackContent,jdbcType=VARCHAR}, #{feedbackUrls,jdbcType=VARCHAR}, #{feedbackThumburls,jdbcType=VARCHAR}, 
+      #{feedbackAudioUrls,jdbcType=VARCHAR}, #{isReminded,jdbcType=BIT}, #{isDel,jdbcType=BIT}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.huo.cloud.homeworkfeedback.po.HomeworkFeedback" >
+    insert into tb_homework_feedback
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="homeworkId != null" >
+        homework_id,
+      </if>
+      <if test="parentId != null" >
+        parent_id,
+      </if>
+      <if test="studentName != null" >
+        student_name,
+      </if>
+      <if test="checkTime != null" >
+        check_time,
+      </if>
+      <if test="feedbackTime != null" >
+        feedback_time,
+      </if>
+      <if test="feedbackContent != null" >
+        feedback_content,
+      </if>
+      <if test="feedbackUrls != null" >
+        feedback_urls,
+      </if>
+      <if test="feedbackThumburls != null" >
+        feedback_thumburls,
+      </if>
+      <if test="feedbackAudioUrls != null" >
+        feedback_audio_urls,
+      </if>
+      <if test="isReminded != null" >
+        is_reminded,
+      </if>
+      <if test="isDel != null" >
+        is_del,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="homeworkId != null" >
+        #{homeworkId,jdbcType=INTEGER},
+      </if>
+      <if test="parentId != null" >
+        #{parentId,jdbcType=INTEGER},
+      </if>
+      <if test="studentName != null" >
+        #{studentName,jdbcType=VARCHAR},
+      </if>
+      <if test="checkTime != null" >
+        #{checkTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="feedbackTime != null" >
+        #{feedbackTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="feedbackContent != null" >
+        #{feedbackContent,jdbcType=VARCHAR},
+      </if>
+      <if test="feedbackUrls != null" >
+        #{feedbackUrls,jdbcType=VARCHAR},
+      </if>
+      <if test="feedbackThumburls != null" >
+        #{feedbackThumburls,jdbcType=VARCHAR},
+      </if>
+      <if test="feedbackAudioUrls != null" >
+        #{feedbackAudioUrls,jdbcType=VARCHAR},
+      </if>
+      <if test="isReminded != null" >
+        #{isReminded,jdbcType=BIT},
+      </if>
+      <if test="isDel != null" >
+        #{isDel,jdbcType=BIT},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.huo.cloud.homeworkfeedback.po.HomeworkFeedbackExample" resultType="java.lang.Integer" >
+    select count(*) from tb_homework_feedback
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update tb_homework_feedback
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.homeworkId != null" >
+        homework_id = #{record.homeworkId,jdbcType=INTEGER},
+      </if>
+      <if test="record.parentId != null" >
+        parent_id = #{record.parentId,jdbcType=INTEGER},
+      </if>
+      <if test="record.studentName != null" >
+        student_name = #{record.studentName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.checkTime != null" >
+        check_time = #{record.checkTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.feedbackTime != null" >
+        feedback_time = #{record.feedbackTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.feedbackContent != null" >
+        feedback_content = #{record.feedbackContent,jdbcType=VARCHAR},
+      </if>
+      <if test="record.feedbackUrls != null" >
+        feedback_urls = #{record.feedbackUrls,jdbcType=VARCHAR},
+      </if>
+      <if test="record.feedbackThumburls != null" >
+        feedback_thumburls = #{record.feedbackThumburls,jdbcType=VARCHAR},
+      </if>
+      <if test="record.feedbackAudioUrls != null" >
+        feedback_audio_urls = #{record.feedbackAudioUrls,jdbcType=VARCHAR},
+      </if>
+      <if test="record.isReminded != null" >
+        is_reminded = #{record.isReminded,jdbcType=BIT},
+      </if>
+      <if test="record.isDel != null" >
+        is_del = #{record.isDel,jdbcType=BIT},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update tb_homework_feedback
+    set id = #{record.id,jdbcType=INTEGER},
+      homework_id = #{record.homeworkId,jdbcType=INTEGER},
+      parent_id = #{record.parentId,jdbcType=INTEGER},
+      student_name = #{record.studentName,jdbcType=VARCHAR},
+      check_time = #{record.checkTime,jdbcType=TIMESTAMP},
+      feedback_time = #{record.feedbackTime,jdbcType=TIMESTAMP},
+      feedback_content = #{record.feedbackContent,jdbcType=VARCHAR},
+      feedback_urls = #{record.feedbackUrls,jdbcType=VARCHAR},
+      feedback_thumburls = #{record.feedbackThumburls,jdbcType=VARCHAR},
+      feedback_audio_urls = #{record.feedbackAudioUrls,jdbcType=VARCHAR},
+      is_reminded = #{record.isReminded,jdbcType=BIT},
+      is_del = #{record.isDel,jdbcType=BIT}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.huo.cloud.homeworkfeedback.po.HomeworkFeedback" >
+    update tb_homework_feedback
+    <set >
+      <if test="homeworkId != null" >
+        homework_id = #{homeworkId,jdbcType=INTEGER},
+      </if>
+      <if test="parentId != null" >
+        parent_id = #{parentId,jdbcType=INTEGER},
+      </if>
+      <if test="studentName != null" >
+        student_name = #{studentName,jdbcType=VARCHAR},
+      </if>
+      <if test="checkTime != null" >
+        check_time = #{checkTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="feedbackTime != null" >
+        feedback_time = #{feedbackTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="feedbackContent != null" >
+        feedback_content = #{feedbackContent,jdbcType=VARCHAR},
+      </if>
+      <if test="feedbackUrls != null" >
+        feedback_urls = #{feedbackUrls,jdbcType=VARCHAR},
+      </if>
+      <if test="feedbackThumburls != null" >
+        feedback_thumburls = #{feedbackThumburls,jdbcType=VARCHAR},
+      </if>
+      <if test="feedbackAudioUrls != null" >
+        feedback_audio_urls = #{feedbackAudioUrls,jdbcType=VARCHAR},
+      </if>
+      <if test="isReminded != null" >
+        is_reminded = #{isReminded,jdbcType=BIT},
+      </if>
+      <if test="isDel != null" >
+        is_del = #{isDel,jdbcType=BIT},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.huo.cloud.homeworkfeedback.po.HomeworkFeedback" >
+    update tb_homework_feedback
+    set homework_id = #{homeworkId,jdbcType=INTEGER},
+      parent_id = #{parentId,jdbcType=INTEGER},
+      student_name = #{studentName,jdbcType=VARCHAR},
+      check_time = #{checkTime,jdbcType=TIMESTAMP},
+      feedback_time = #{feedbackTime,jdbcType=TIMESTAMP},
+      feedback_content = #{feedbackContent,jdbcType=VARCHAR},
+      feedback_urls = #{feedbackUrls,jdbcType=VARCHAR},
+      feedback_thumburls = #{feedbackThumburls,jdbcType=VARCHAR},
+      feedback_audio_urls = #{feedbackAudioUrls,jdbcType=VARCHAR},
+      is_reminded = #{isReminded,jdbcType=BIT},
+      is_del = #{isDel,jdbcType=BIT}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+
+  <insert id="insertBatch">
+  insert into tb_homework_feedback (homework_id, parent_id,
+  student_name)
+  values
+  <foreach collection="feedbacks" item="item" index="index" separator=",">
+    (#{item.homeworkId,jdbcType=INTEGER}, #{item.parentId,jdbcType=INTEGER}, #{item.studentName,jdbcType=VARCHAR})
+  </foreach></insert>
+</mapper>

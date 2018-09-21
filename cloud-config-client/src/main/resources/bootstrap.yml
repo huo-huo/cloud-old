@@ -1,10 +1,17 @@
-server:
-  port: 8881
 spring:
   application:
     name: config-client
   cloud:
     config:
       label: master
-      profile: dev
-      uri: http://localhost:9301/
+      profile: test
+#      uri: http://localhost:9301/ # 直接连configServer 读取配置
+      discovery:
+        enabled: true  # 从配置中心读取文件
+        service-id: config-server # 配置中心的serviceId，即服务名
+eureka:
+  client:
+    service-url:
+      # 从注册中心读取配置(configServer高可用)
+      defaultZone: http://eureka9100:9100/eureka/,http://eureka9101:9101/eureka/,http://eureka9102:9102/eureka/
+
